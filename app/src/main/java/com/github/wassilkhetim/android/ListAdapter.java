@@ -1,16 +1,20 @@
 package com.github.wassilkhetim.android;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     private List<PersonnageInfo> values;
+    private View parent;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -24,6 +28,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         ViewHolder(View v) {
             super(v);
             layout = v;
+            parent = layout;
             txtHeader = (TextView) v.findViewById(R.id.firstLine);
             txtFooter = (TextView) v.findViewById(R.id.secondLine);
         }
@@ -68,7 +73,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         holder.txtHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                remove(position);
+                Intent intent = new Intent(parent.getContext(), PersonnageInfoActivity.class);
+                intent.putExtra("name", name.getName());
+                parent.getContext().startActivity(intent);
             }
         });
 
