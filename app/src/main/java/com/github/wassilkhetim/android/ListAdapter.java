@@ -75,6 +75,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             public void onClick(View v) {
                 Intent intent = new Intent(parent.getContext(), PersonnageInfoActivity.class);
                 intent.putExtra("name", name.getName());
+                intent.putExtra("status", name.getStatus());
+                intent.putExtra("species", name.getSpecies());
+                intent.putExtra("origin", name.getOrigin().getName());
+                intent.putExtra("location", name.getLocation().getName());
+                intent.putExtra("image", name.getImage());
                 parent.getContext().startActivity(intent);
             }
         });
