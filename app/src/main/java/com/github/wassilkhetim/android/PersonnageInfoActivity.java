@@ -35,7 +35,7 @@ public class PersonnageInfoActivity extends AppCompatActivity {
         if(b !=null){
             if(b.getString("name") != null) titre_text_view.setText(b.getString("name"));
             if(b.getString("status") != null && b.getString("species") != null) sub_info_tv.setText(b.getString("status") + " - " + b.getString("species"));
-            if(b.getString("origin") != null) origin_tv.setText(b.getString("origin"));
+            if(b.getString("origin") != null) origin_tv.setText("Origin : "+b.getString("origin"));
             if(b.getString("location") != null) current_loc_tv.setText(b.getString("location"));
             if(b.getString("image") != null) Glide.with(getApplicationContext()).load(b.getString("image")).centerCrop().into(image_iv);
         }
