@@ -28,3 +28,16 @@ Voici les éléments qui ont été respectés et ajoutés :
 ## Fonctionalités
 
 #### Écran d'accueil :
+
+<p float="left">
+  <img src=https://github.com/Wassangota/Android3A/blob/master/Screenshots/Screenshot_1590081995.png width=25%>
+  <img src=https://github.com/Wassangota/Android3A/blob/master/Screenshots/Screenshot_1590082067.png width=25%>
+</p>
+
+#### Écran détail du personnage :
+
+<p float="left">
+  <img src=https://github.com/Wassangota/Android3A/blob/master/Screenshots/Screenshot_1590082126.png width=25%>
+  <img src=https://github.com/Wassangota/Android3A/blob/master/Screenshots/Screenshot_1590082151.png width=25%>
+  <img src=https://github.com/Wassangota/Android3A/blob/master/Screenshots/Screenshot_1590082160.png width=25%>
+</p>
