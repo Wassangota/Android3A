@@ -1,11 +1,14 @@
 package com.github.wassilkhetim.android;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -18,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,17 +38,46 @@ public class MainActivity extends AppCompatActivity {
     private ListAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private List<PersonnageInfo> listPersonnage;
+    private SharedPreferences sharedPreferences;
+    Gson gson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.listPersonnage = new ArrayList<PersonnageInfo>();
-        Toast.makeText(getApplicationContext(), "Loading", Toast.LENGTH_LONG).show();
-        startApiCall(1);
+
+        sharedPreferences = getSharedPreferences("application_rickmorty_esiea", Context.MODE_PRIVATE);
+        gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        this.listPersonnage = getDataFromCache();
+        if(this.listPersonnage != null){
+            startRecyclerView();
+        }else{
+            DownloadData();
+        }
+        
         Log.d("WASSA", "startApiCall Worked");
 
 
+    }
+
+    private void DownloadData(){
+        this.listPersonnage = new ArrayList<PersonnageInfo>();
+        Toast.makeText(getApplicationContext(), "Loading", Toast.LENGTH_LONG).show();
+        startApiCall(1);
+    }
+
+    private List<PersonnageInfo> getDataFromCache() {
+        String jsonPersonnageInfoList = sharedPreferences.getString("jsonPersonnageInfoList", null);
+
+        if(jsonPersonnageInfoList == null){
+            return null;
+        }else{
+            Type listType = new TypeToken<List<PersonnageInfo>>(){}.getType();
+            return gson.fromJson(jsonPersonnageInfoList, listType);
+        }
     }
 
     private void startRecyclerView() {
@@ -59,9 +92,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startApiCall(final int page) {
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -77,14 +107,13 @@ public class MainActivity extends AppCompatActivity {
                 if(response.isSuccessful() && response.body() != null){
                     List<PersonnageInfo> personnageInfoList = response.body().getResults();
 
-                    //Log.d("WASSA", personnageInfoList.toString());
-                    //startRecyclerView(personnageInfoList);
                     addElementToList(personnageInfoList);
                     if(response.body().getInfo().getNext() != null && !response.body().getInfo().getNext().equals("")){
                         startApiCall(page+1);
                     }else{
+                        saveList();
                         startRecyclerView();
-                        Toast.makeText(getApplicationContext(), "API Success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Loading Success", Toast.LENGTH_SHORT).show();
                     }
                     Log.d("WASSA", "startRecyclerView Worked");
                 }else{
@@ -98,6 +127,15 @@ public class MainActivity extends AppCompatActivity {
                 showError();
             }
         });
+    }
+
+    private void saveList() {
+        String jsonString = gson.toJson(this.listPersonnage);
+        sharedPreferences
+                .edit()
+                .putString("jsonPersonnageInfoList", jsonString)
+                .apply();
+        Toast.makeText(this, "Liste sauvegardée", Toast.LENGTH_SHORT).show();
     }
 
     private void addElementToList(List<PersonnageInfo> newList){
