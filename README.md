@@ -5,7 +5,7 @@ créé par Wassil Khetim
 
 **Rick and Morty and Co**, application developpée dans le cadre du projet android de 3ème année, met en place une liste de personnage avec un affichage de détails supplémentaires pour chacun des personnages de la série.
 
-Dans cette application on pourras retrouvé des données obtenues à partir de l'API *The Rick and Morty API* créée par Axel Fuhrmann et Talita et obtenable [ici](https://rickandmortyapi.com/).
+Dans cette application on pourra retrouver des données obtenues à partir de l'API *The Rick and Morty API* créée par Axel Fuhrmann et Talita et obtenable [ici](https://rickandmortyapi.com/).
 
 ## Élements de la consigne
 
