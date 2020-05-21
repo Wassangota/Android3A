@@ -33,33 +33,32 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ListAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    private List<PersonnageInfo> listPersonnage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        startApiCall();
+        this.listPersonnage = new ArrayList<PersonnageInfo>();
+        Toast.makeText(getApplicationContext(), "Loading", Toast.LENGTH_LONG).show();
+        startApiCall(1);
         Log.d("WASSA", "startApiCall Worked");
+
+
     }
 
-    private void startRecyclerView(List<PersonnageInfo> list) {
+    private void startRecyclerView() {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        List<String> input = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            input.add("Test" + i);
-        }
-
         // define an adapter
-        mAdapter = new ListAdapter(list);
+        mAdapter = new ListAdapter(this.listPersonnage);
         recyclerView.setAdapter(mAdapter);
     }
 
-    private void startApiCall() {
+    private void startApiCall(final int page) {
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
@@ -71,15 +70,22 @@ public class MainActivity extends AppCompatActivity {
 
         RickMortyApi rickMortyApi = retrofit.create(RickMortyApi.class);
 
-        Call<RestRickmortyResponse> call = rickMortyApi.getRickmortyResponse();
+        Call<RestRickmortyResponse> call = rickMortyApi.getRickmortyResponse(page);
         call.enqueue(new Callback<RestRickmortyResponse>() {
             @Override
             public void onResponse(Call<RestRickmortyResponse> call, Response<RestRickmortyResponse> response) {
                 if(response.isSuccessful() && response.body() != null){
                     List<PersonnageInfo> personnageInfoList = response.body().getResults();
-                    Toast.makeText(getApplicationContext(), "API Success", Toast.LENGTH_LONG).show();
+
                     //Log.d("WASSA", personnageInfoList.toString());
-                    startRecyclerView(personnageInfoList);
+                    //startRecyclerView(personnageInfoList);
+                    addElementToList(personnageInfoList);
+                    if(response.body().getInfo().getNext() != null && !response.body().getInfo().getNext().equals("")){
+                        startApiCall(page+1);
+                    }else{
+                        startRecyclerView();
+                        Toast.makeText(getApplicationContext(), "API Success", Toast.LENGTH_SHORT).show();
+                    }
                     Log.d("WASSA", "startRecyclerView Worked");
                 }else{
                     showError();
@@ -92,6 +98,10 @@ public class MainActivity extends AppCompatActivity {
                 showError();
             }
         });
+    }
+
+    private void addElementToList(List<PersonnageInfo> newList){
+        this.listPersonnage.addAll(newList);
     }
 
     private void showError() {

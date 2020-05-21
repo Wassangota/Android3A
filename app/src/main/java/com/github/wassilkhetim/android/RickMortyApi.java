@@ -6,7 +6,7 @@ import retrofit2.http.Query;
 
 public interface RickMortyApi {
 
-    @GET("/api/character")
-    Call<RestRickmortyResponse> getRickmortyResponse();
+    @GET("/api/character/")
+    Call<RestRickmortyResponse> getRickmortyResponse(@Query("page") int valeur);
 
 }
