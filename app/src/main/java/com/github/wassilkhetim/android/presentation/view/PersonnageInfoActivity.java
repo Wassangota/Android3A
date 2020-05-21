@@ -1,4 +1,4 @@
-package com.github.wassilkhetim.android;
+package com.github.wassilkhetim.android.presentation.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.github.wassilkhetim.android.R;
 
 public class PersonnageInfoActivity extends AppCompatActivity {
 

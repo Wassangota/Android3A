@@ -1,6 +1,5 @@
-package com.github.wassilkhetim.android;
+package com.github.wassilkhetim.android.presentation.view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -9,12 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-
-import org.w3c.dom.Text;
+import com.github.wassilkhetim.android.R;
+import com.github.wassilkhetim.android.presentation.model.PersonnageInfo;
 
 import java.util.List;
 

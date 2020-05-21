@@ -1,24 +1,22 @@
-package com.github.wassilkhetim.android;
+package com.github.wassilkhetim.android.presentation.view;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.github.wassilkhetim.android.R;
+import com.github.wassilkhetim.android.data.RickMortyApi;
+import com.github.wassilkhetim.android.presentation.model.PersonnageInfo;
+import com.github.wassilkhetim.android.presentation.model.RestRickmortyResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.lang.reflect.Type;

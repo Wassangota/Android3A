@@ -1,4 +1,4 @@
-package com.github.wassilkhetim.android;
+package com.github.wassilkhetim.android.presentation.model;
 
 import java.util.List;
 
